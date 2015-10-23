@@ -1,0 +1,54 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="user" extends="struts-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<interceptor name="Authorization" class="com.common.base.RightInterceptor" />
+			<interceptor-stack name="Authorizations">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="Authorization" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="Authorizations" />
+
+		<!-- 全局跳转器 -->
+		<global-results>
+			<result name="error">/error.jsp</result>			
+		</global-results>
+		
+		<action name="left" class="userAction" method="toReturnSuccess">
+			<result name="success">/WEB-INF/jsp/left.jsp</result>
+		</action>
+		<action name="right" class="userAction" method="right">
+			<result name="success">/WEB-INF/jsp/right.jsp</result>
+		</action>
+		<action name="head" class="userAction" method="toReturnSuccess">
+			<result name="success">/WEB-INF/jsp/head.html</result>
+		</action>
+			<action name="toAddUser" class="userAction" method="toAddUser">
+			<result name="success">/WEB-INF/jsp/user/addUser.jsp</result>
+		</action>
+		<action name="toModifyUser" class="userAction" method="toModifyUser">
+			<result name="success">/WEB-INF/jsp/user/modifyUser.jsp</result>
+		</action>
+		<action name="addUser" class="userAction" method="addUser">
+			<result name="success">/success.jsp</result>
+		</action>
+			<action name="modifyUser" class="userAction" method="modifyUser">
+			<result name="success">/success.jsp</result>
+		</action>
+		<action name="deleteUser" class="userAction" method="deleteUser">
+			<result name="success">/success.jsp</result>
+		</action>
+		<action name="listUser" class="userAction" method="getAll">
+			<result name="success">/WEB-INF/jsp/user/list.jsp</result>
+		</action>
+		<action name="listUserLogin" class="userAction" method="listUserLogin">
+			<result name="success">/WEB-INF/jsp/user/listinfo.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

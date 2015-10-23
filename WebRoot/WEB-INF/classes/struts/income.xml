@@ -1,0 +1,44 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="income" extends="struts-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<interceptor name="Authorization" class="com.common.base.RightInterceptor" />
+			<interceptor-stack name="Authorizations">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="Authorization" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="Authorizations" />
+
+		<!-- 全局跳转器 -->
+		<global-results>
+			<result name="error">/error.jsp</result>			
+		</global-results>
+		
+		<action name="addIncome" class="incomeAction" method="addIncome">
+			<result name="success">/success.jsp</result>
+		</action>
+			<action name="toaddIncome" class="incomeAction" method="toaddIncome">
+			<result name="success">/WEB-INF/jsp/income/addIncome.jsp</result>
+		</action>
+		<action name="toModifyIncome" class="incomeAction" method="toModifyIncome">
+			<result name="success">/WEB-INF/jsp/income/modifyIncome.jsp</result>
+		</action>
+		<action name="listIncome" class="incomeAction" method="getAll">
+			<result name="success">/WEB-INF/jsp/income/list.jsp</result>
+		</action>
+			<action name="updateIncome" class="incomeAction" method="updateIncome">
+			<result name="success">/success.jsp</result>
+		</action>
+		<action name="deleteIncome" class="incomeAction" method="deleteIncome">
+			<result name="success">/success.jsp</result>
+		</action>
+		
+		
+		
+	</package>
+
+</struts>

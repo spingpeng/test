@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="PersonalFinance"
+  id="myeclipse.1294129299638"
+  context-root="/PersonalFinance"
+  j2ee-spec="5.0"
+  archive="PersonalFinance.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

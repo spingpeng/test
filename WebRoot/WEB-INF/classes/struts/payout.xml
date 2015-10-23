@@ -1,0 +1,43 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="payout" extends="struts-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<interceptor name="Authorization" class="com.common.base.RightInterceptor" />
+			<interceptor-stack name="Authorizations">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="Authorization" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="Authorizations" />
+
+		<!-- 全局跳转器 -->
+		<global-results>
+			<result name="error">/error.jsp</result>			
+		</global-results>
+		
+		<action name="addPayout" class="payoutAction" method="addPayout">
+			<result name="success">/success.jsp</result>
+		</action>
+			<action name="toaddPayout" class="payoutAction" method="toaddPayout">
+			<result name="success">/WEB-INF/jsp/payout/addPayout.jsp</result>
+		</action>
+		<action name="toModifyPayout" class="payoutAction" method="toModifyPayout">
+			<result name="success">/WEB-INF/jsp/payout/modifyPayout.jsp</result>
+		</action>
+		<action name="listPayout" class="payoutAction" method="getAll">
+			<result name="success">/WEB-INF/jsp/payout/list.jsp</result>
+		</action>
+			<action name="updatePayout" class="payoutAction" method="updatePayout">
+			<result name="success">/success.jsp</result>
+		</action>
+		<action name="deletePayout" class="payoutAction" method="deletePayout">
+			<result name="success">/success.jsp</result>
+		</action>
+		
+		
+	</package>
+
+</struts>

@@ -1,0 +1,18 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="login" extends="struts-default">
+		<!-- 全局跳转器 -->
+		<global-results>
+			<result name="error">/error.jsp</result>			
+		</global-results>
+		<action name="index" class="userAction" method="login">
+			<result name="success">/WEB-INF/jsp/index.html</result>			
+		</action>
+		<action name="exit" class="userAction" method="exit">
+			<result name="success">/success.jsp</result>			
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />			
+		<property name="jdbcUrl"  value="jdbc:mysql://localhost:3306/finance?useUnicode=true&amp;characterEncoding=gbk&amp;autoReconnect=true&amp;failOverReadOnly=false" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+		<property name="minPoolSize" value="15" />
+		<property name="acquireIncrement" value="5" />
+		<property name="maxPoolSize" value="25" />
+		
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"  />
+		
+		<property name="mappingResources">
+		<list>
+		 <value>com/common/bean/Income.hbm.xml</value>		 
+		 <value>com/common/bean/Payout.hbm.xml</value>
+		 <value>com/common/bean/User.hbm.xml</value>
+		 <value>com/common/bean/Logininfo.hbm.xml</value>		
+		</list>
+		</property>
+		<property name="hibernateProperties">
+		<props>
+		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		<prop key="hibernate.show_sql">true</prop>
+		</props>
+		</property>
+		
+	</bean>
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>		
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<tx:advice id="MethodAdivice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="selete" read-only="true"/>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="aoppoint" expression="execution (* com.common.services.*.*(..))"/>
+		<aop:advisor advice-ref="MethodAdivice" pointcut-ref="aoppoint"/>
+	
+	</aop:config>
+	
+	<bean id="baseDao" class="com.common.base.BaseDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	<bean id="userServices" class="com.common.services.UserServices">
+	<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	<bean id="userAction" class="com.common.action.UserAction">
+		<property name="baseServices" ref="userServices"></property>
+	</bean>
+	<bean id="payoutServices" class="com.common.services.PayoutServices">
+	<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	<bean id="incomeServices" class="com.common.services.IncomeServices">
+	<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	<bean id="payoutAction" class="com.common.action.PayoutAction">
+		<property name="baseServices" ref="payoutServices"></property>
+	</bean>
+<bean id="incomeAction" class="com.common.action.IncomeAction">
+		<property name="baseServices" ref="incomeServices"></property>
+	</bean>
+</beans>
